@@ -1,0 +1,35 @@
+import os
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Variables
+PROJ = "M2"
+doc = "blueberry_2024_o2.csv"
+
+# dirs
+cwd = os.getcwd()
+print("Current working directory:", cwd)
+cwd = cwd.replace("\\", "/")
+projdir = cwd + '/projects' + PROJ + '/'
+print("Project directory:", projdir)
+resultsdir = projdir + 'Cluster plot/'  # Directory for storing results
+print("Results directory:", resultsdir)
+
+# Construct file path
+fil = projdir + doc
+print("Constructed file path:", fil)
+df = pd.read_csv(fil, sep=',')
+    
+# Identify known outliers
+outlier = df['VitB9'] == 650
+
+# Scatter plot
+plt.figure(figsize=(10, 6))
+plt.scatter(df.index[~outlier], df['VitB9'][~outlier], color='blue', label='Normal Points')
+plt.scatter(df.index[outlier], df['VitB9'][outlier], color='red', label='Outlier (650)', edgecolor='black', s=100)
+plt.title('Scatter Plot for VitB9 Column')
+plt.xlabel('Sample number')
+plt.ylabel('VitB9')
+plt.legend()
+plt.grid(True)
+plt.show()
