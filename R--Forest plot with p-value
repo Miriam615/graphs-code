@@ -1,1 +1,22 @@
-> library(ggplot2)
+library(ggplot2)
+
+#set working file
+setwd("D:\\study\\dataanalysis")
+
+#read data, data must be organized prehand, need pvalue as column
+mydata = read.csv("1.csv")
+
+#have a look at the data
+mydata
+head(mydata)
+dim(mydata)
+
+ggplot(data=mydata) + 
+  aes(x=HR, y=id) + 
+  geom_errorbarh(aes(xmax = HR95H, xmin= HR95L), color = "black", height = 0, size = 0.8) + 
+  geom_point(size=4, shape=18, aes(color = pvalue)) + 
+  geom_vline(xintercept = 1, linetype = "dashed", size = 1.2) +
+  coord_trans(x='log2') + #normalization(not necessary needed)
+  scale_x_continuous(breaks = c(0.2, 0.5, 1, 1.5, 2, 3, 5, 7) + 
+  labs (x = "Ratios", y = "Classification", color = "p value") + #labels
+  theme_bw()
