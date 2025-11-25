@@ -1,0 +1,44 @@
+install.packages("corrplot")
+
+library(corrplot)
+
+# Load the datasets
+biomarkers <- read.csv('D:/study/chemometric/projectsM4/M4_Surgery_Biomarkers_mod.csv', sep = ',')
+microbiome <- read.csv('D:/study/chemometric/projectsM4/M4_Surgery_Microbiome_mod.csv', sep = ',')
+
+# Merge the datasets based on a common column (e.g., 'ID' or 'Patient')
+df_combined <- merge(biomarkers, microbiome, by = "ID")  # Replace "ID" with the actual common column
+
+# columns of interested biomarkers
+columns_of_interest <- c('GLU', 'HbA1c', 'HDL', 'LDL', 'CHO', 'GHR', 'IL6', 'BW', 'BMI', 'Moore.Survey')
+
+# columns from microbiome dataset
+columnintbac <- c('g.Streptococcus','g.Porphyromonas_A_859424','g.Ruminococcus_E',
+                  'g.Limiplasma','g.Lactobacillus','g.Faecalibacillus','g.Dielma',
+                  'g.Bacteroides_H','g.Bifidobacterium_388775','g.Anaerostipes')
+
+# Select the relevant columns
+df_selected <- df_combined[, c(columns_of_interest, columnintbac)]
+
+# Calculate the correlation matrix using Spearman's method
+corr_matrix <- cor(df_selected, method = "spearman", use = "pairwise.complete.obs")
+
+# Set up plot parameters
+par(cex = 0.6, mar = c(1, 1, 1, 1))  # Reduce margins and label size for better space management
+
+# Create a custom color palette similar to your example
+col1 <- colorRampPalette(c("#D73027", "white", "#1A9850"))(200)
+
+# Generate the correlation plot
+corrplot(
+  corr_matrix,
+  method = "circle",   # Use circles to represent correlation strength
+  type = "upper",      # Show only the upper triangle of the correlation matrix
+  tl.cex = 0.6,        # Text label size for x and y axes
+  tl.col = "black",    # Text label color
+  tl.srt = 45,         # Rotate text labels to 45 degrees
+  col = col1,          # Custom color palette
+  cl.cex = 0.7,        # Color legend text size
+  addgrid.col = "grey" # Grid color for better visual clarity
+)
+
