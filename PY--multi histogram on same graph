@@ -1,0 +1,34 @@
+#Compare two distribution on same graph
+# libraries & dataset
+import seaborn as sns
+import matplotlib.pyplot as plt
+  
+sns.set_theme(style="darkgrid")
+df = sns.load_dataset("iris")
+
+sns.histplot(data=df, x="sepal_length", color="skyblue", label="Sepal Length", kde=True)
+sns.histplot(data=df, x="sepal_width", color="red", label="Sepal Width", kde=True)
+
+plt.legend() 
+plt.show()
+
+
+
+
+
+#If need matrix form (multiple row and column), use the following and change matrix num
+# libraries & dataset
+import seaborn as sns
+import matplotlib.pyplot as plt
+  
+sns.set_theme(style="darkgrid")
+df = sns.load_dataset("iris")
+
+fig, axs = plt.subplots(2, 2, figsize=(7, 7))
+
+sns.histplot(data=df, x="sepal_length", kde=True, color="skyblue", ax=axs[0, 0])
+sns.histplot(data=df, x="sepal_width", kde=True, color="olive", ax=axs[0, 1])
+sns.histplot(data=df, x="petal_length", kde=True, color="gold", ax=axs[1, 0])
+sns.histplot(data=df, x="petal_width", kde=True, color="teal", ax=axs[1, 1])
+
+plt.show()
