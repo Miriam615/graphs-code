@@ -1,0 +1,10 @@
+# libraries & dataset
+import seaborn as sns
+import matplotlib.pyplot as plt
+# set a grey background (use sns.set_theme() if seaborn version 0.11.0 or above, set otherwise) 
+sns.set_theme(style="darkgrid")
+df = sns.load_dataset("iris")
+
+#kde=True provides a density line, if don't want it, set it to false
+sns.histplot(data=df, x="sepal_length", kde=True)
+plt.show()
